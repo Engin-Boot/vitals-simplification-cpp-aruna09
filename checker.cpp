@@ -10,13 +10,13 @@ bool checkbpm(float bpm){
   return(bpm>MinBPM && bpm<MaxBPM);
 }
 bool checkspo2(float spo2){
-  return(MinSpo2<min);
+  return(spo2<MinSpo2);
 }
 bool checkRespRate(float respRate){
   return(respRate>MinRespRate && respRate<MaxRespRate);
 }
 bool vitalsAreOk(float bpm, float spo2, float respRate) {
-  return (checkbpm && checkspo2 && checkRespRate);
+  return (checkbpm(bpm) && checkspo2(spo2) && checkRespRate(respRate));
 }
 
 int main() {
