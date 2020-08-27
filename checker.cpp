@@ -10,7 +10,7 @@ bool checkbpm(float bpm){
   return(bpm>MinBPM && bpm<MaxBPM);
 }
 bool checkspo2(float spo2){
-  return(spo2<MinSpo2);
+  return(spo2>MinSpo2);
 }
 bool checkRespRate(float respRate){
   return(respRate>MinRespRate && respRate<MaxRespRate);
