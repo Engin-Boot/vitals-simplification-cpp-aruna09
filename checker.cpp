@@ -1,19 +1,19 @@
 #include <assert.h>
 
-int MinBPM = 70;
-int MaxBPM = 150;
-int MinSpo2 = 90;
-int MinRespRate = 30;
-int MaxRespRate = 95;
+float MinBPM[] = {70};
+float MaxBPM[] = {150};
+float MinSpo2[] = {90};
+float MinRespRate[] = {30};
+float MaxRespRate[] = {95};
 
 bool checkbpm(float bpm){
-  return(bpm>MinBPM && bpm<MaxBPM);
+  return(bpm>MinBPM[0] && bpm<MaxBPM[0]);
 }
 bool checkspo2(float spo2){
-  return(spo2>MinSpo2);
+  return(spo2>MinSpo2[0]);
 }
 bool checkRespRate(float respRate){
-  return(respRate>MinRespRate && respRate<MaxRespRate);
+  return(respRate>MinRespRate[0] && respRate<MaxRespRate[0]);
 }
 bool vitalsAreOk(float bpm, float spo2, float respRate) {
   return (checkbpm(bpm) && checkspo2(spo2) && checkRespRate(respRate));
