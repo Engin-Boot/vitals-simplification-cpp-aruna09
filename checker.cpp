@@ -1,4 +1,6 @@
 #include <assert.h>
+#include<iostream>
+using namespace std;
 
 float MinBPM[] = {70};
 float MaxBPM[] = {150};
@@ -6,60 +8,68 @@ float MinSpo2[] = {90};
 float MinRespRate[] = {30};
 float MaxRespRate[] = {95};
 
-class AlertInSms{
-  public:
-    void SendAlert(const char* vitalName, const char* Message){
-      std::cout<<"Alert! "+vitalName+"breached";
-}
-class AlertInSound{
-  public:
-    void SendAlert(const char* vitalName, const char* Message){
-      std::cout<<"Alert! "+vitalName+"breached";
-}
-  
-class BpmCheck: public VitalCheck
+class Alert
 {
   public:
-    bool checkVitalIsOk(float value) override
-    {
-      if(value<MinBPM[0])
-        SendAlert("BPM", "Value less than Min BPM");
-      if(value>MaxBPM[0])
-        SendAlert("BPM", "Value more than Max BMP");
-    }
+    virtual void SendAlert(const char* vitalName, const char* Message) = 0;
 };
-  
-class spo2Check: public VitalCheck
+class AlertInSms: public Alert
 {
   public:
-    bool checkVitalIsOk(float value) override
+    void SendAlert(const char* vitalName, const char* Message)
     {
-      if(value<Minspo2[0])
-        SendAlert("Spo2", "Value less than Min Spo2");
+      std::cout<<vitalName<<": "<<Message<<endl;
     }
 };
-  
-class RespRateCheck: public VitalCheck
+class AlertInSound: public Alert
 {
   public:
-    bool checkVitalIsOk(float value) override
+    void SendAlert(const char* vitalName, const char* Message)
     {
-      if(value<MinRespRate[0])
-        SendAlert("Respiration Rate", "Value less than Min RespRate");
-      if(value>MaxRespRate[0])
-        SendAlert("Respiration Rate", "Value more than Max RespRate");
+      std::cout<<vitalName<<": "<<Message<<endl;
     }
-};
-class VitalCheck{
-  public:
-  virtual bool checkVitalIsOk(float value) = 0;
 };
 
-int main() {
-  VitalCheck vitalcheck = new VitalCheck();
-  
-  assert(checkVitalIsOk(80, 60, 100) == true);
-  assert(checkVitalIsOk(60, 40, 90) == true);
-  assert(checkVitalIsOk(3, 40, 90) == false);
-  assert(checkVitalIsOk(15, 20, 50) == false);
+
+ void checkRespRateIsOk(Alert *alert, float value)
+    {
+      if(value<MinRespRate[0])
+        alert->SendAlert("Respiration Rate", "is lower than the minimum limit");
+      else if(value>MaxRespRate[0])
+        alert->SendAlert("Respiration Rate", "is higher than the maximum value");
+      else
+        alert->SendAlert("Respiration Rate", "is normal");
+    }
+
+    void checkSpo2IsOk(Alert *alert,float value)
+    {
+      if(value<MinSpo2[0])
+        alert->SendAlert("Spo2", "is less than minimum.");
+      else
+        alert->SendAlert("Spo2", "is in range");
+    }
+
+    void checkBPMIsOk(Alert *alert,float value)
+    {
+      if(value<MinBPM[0])
+        alert->SendAlert("BPM", "Below minimum range.");
+      else if(value>MaxBPM[0])
+        alert->SendAlert("BPM", "Higher than maximum");
+      else
+        alert->SendAlert("BPM", "is in range");
+    }
+void checkAllVitals(float bpm, float spo2, float respRate)
+{
+      Alert *alert = new AlertInSms();
+
+      checkBPMIsOk(alert, bpm);
+      checkRespRateIsOk(alert, respRate);
+      checkSpo2IsOk(alert, spo2);
+}
+
+
+int main() 
+{
+  checkAllVitals(10,20,30);
+  return 0;
 }
