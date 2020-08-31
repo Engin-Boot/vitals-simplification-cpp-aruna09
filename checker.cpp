@@ -70,6 +70,9 @@ void checkAllVitals(float bpm, float spo2, float respRate)
 
 int main() 
 {
-  checkAllVitals(10,20,30);
+  float BPMValues[] = {10.0, 20.0};
+  float Spo2Values[] = {90.0, 10.0};
+  float RespRateValues[] = {33.0, 72.0};
+  checkAllVitals(BPMValues[0],Spo2Values[0],RespRateValues[0]);
   return 0;
 }
